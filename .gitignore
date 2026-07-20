@@ -1,0 +1,19 @@
+# Real credentials — never commit
+config.json
+
+# Old reference material (previous VM/ONVIF setup) — not part of this project
+OLD/
+
+# Runtime logs
+*.log
+
+# Go build output
+/reolink-onvif-shim
+/dist/
+
+# macOS
+.DS_Store
+
+# Screenshots may contain visible credentials
+*.png
+doorbell*.png
