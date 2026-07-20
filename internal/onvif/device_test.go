@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/statico/reolink-onvif-shim/internal/config"
+	"github.com/statico-alt/reolink-onvif-shim/internal/config"
 )
 
 func testConfig() *config.Config {

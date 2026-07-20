@@ -8,7 +8,7 @@ import (
 	"net"
 	"strings"
 
-	"github.com/statico/reolink-onvif-shim/internal/config"
+	"github.com/statico-alt/reolink-onvif-shim/internal/config"
 )
 
 // WS-Discovery multicast group/port, per the WS-Discovery spec. UniFi

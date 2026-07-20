@@ -8,7 +8,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/statico/reolink-onvif-shim/internal/config"
+	"github.com/statico-alt/reolink-onvif-shim/internal/config"
 )
 
 // maxRequestBytes bounds how much of a SOAP request body we'll read, so a

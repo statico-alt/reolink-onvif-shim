@@ -1,8 +1,10 @@
-// Command reolink-onvif-shim is a tiny ONVIF control-plane server that
-// makes a Reolink camera adoptable by UniFi Protect as a third-party ONVIF
-// camera. In "direct" mode (the only mode this build implements) it never
-// touches video bytes: it answers ONVIF SOAP and hands Protect the real
-// camera's RTSP/snapshot URLs, which Protect then connects to directly.
+// Command reolink-onvif-shim is a tiny ONVIF control-plane server that makes
+// a Reolink camera adoptable by UniFi Protect as a third-party ONVIF camera.
+// It answers just enough ONVIF SOAP for Protect to adopt the camera. In
+// "proxy" mode it also relays the RTSP stream (a raw TCP byte proxy) and JPEG
+// snapshots from the camera, because Protect fetches media from this host's
+// IP rather than the address in the ONVIF URIs. In "direct" mode it instead
+// hands Protect the camera's own URLs and no media passes through it.
 package main
 
 import (
@@ -18,8 +20,8 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/statico/reolink-onvif-shim/internal/config"
-	"github.com/statico/reolink-onvif-shim/internal/onvif"
+	"github.com/statico-alt/reolink-onvif-shim/internal/config"
+	"github.com/statico-alt/reolink-onvif-shim/internal/onvif"
 )
 
 func main() {

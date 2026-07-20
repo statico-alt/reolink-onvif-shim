@@ -3,7 +3,7 @@ package onvif
 import (
 	"log"
 
-	"github.com/statico/reolink-onvif-shim/internal/config"
+	"github.com/statico-alt/reolink-onvif-shim/internal/config"
 )
 
 // Service implements the ONVIF Device and Media SOAP handlers. Its methods

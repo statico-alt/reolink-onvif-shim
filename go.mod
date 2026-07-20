@@ -1,3 +1,3 @@
-module github.com/statico/reolink-onvif-shim
+module github.com/statico-alt/reolink-onvif-shim
 
 go 1.26
