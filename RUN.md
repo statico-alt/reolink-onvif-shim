@@ -82,5 +82,24 @@ port, and what we returned — including whether the RTSP/snapshot proxy is bein
   port requires root on macOS.
 - **Memory tracking:** a `MEMSTATS` line logs at startup and every minute (heap,
   goroutines, GC). Flat lines over time confirm there's no leak.
-- **Auto-start:** running manually for now. A launchd/systemd service to auto-start and
-  restart is a follow-up once the setup is confirmed stable.
+## Run at boot (auto-start)
+
+Install it as a macOS **LaunchAgent** — starts at login and is automatically
+restarted if it ever exits. No root required (the shim uses high ports).
+
+```sh
+make install-service     # renders the plist, installs it, and starts the service
+make service-status      # check it's running (shows state + pid)
+make uninstall-service   # stop + remove it
+```
+
+- Stop any manual/tmux run first, or the agent can't bind the port (the installer
+  warns if the port is already in use).
+- The service runs the binary and `config.json` from this repo directory, and writes
+  to `reolink-onvif-shim.log` (so `make logs` / `make mem` still work). Don't `make
+  clean` or move the repo while the service is installed.
+- Under the hood: `launchd` calls `launchctl bootstrap` on
+  `~/Library/LaunchAgents/com.statico-alt.reolink-onvif-shim.plist`, generated from
+  `launchd/*.template`. To restart after a config change: `make service-restart`.
+- If you need it to run *before* login (truly headless, no auto-login), that requires a
+  root LaunchDaemon instead — ask and I'll add one.

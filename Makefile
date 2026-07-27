@@ -52,6 +52,24 @@ universal: ## Build a universal (Intel + Apple Silicon) macOS binary in dist/
 mem: ## Show the most recent memory-stats lines from the log
 	@grep MEMSTATS $(LOG) | tail -20
 
+LABEL := com.statico-alt.reolink-onvif-shim
+
+.PHONY: install-service
+install-service: build ## Install + start the LaunchAgent (auto-starts at login, no root)
+	./scripts/install-service.sh
+
+.PHONY: uninstall-service
+uninstall-service: ## Stop + remove the LaunchAgent
+	./scripts/uninstall-service.sh
+
+.PHONY: service-status
+service-status: ## Show whether the LaunchAgent is running
+	@launchctl print gui/$$(id -u)/$(LABEL) 2>/dev/null | grep -E '^\s*(state|pid) =' || echo "not loaded"
+
+.PHONY: service-restart
+service-restart: ## Restart the LaunchAgent
+	launchctl kickstart -k gui/$$(id -u)/$(LABEL)
+
 .PHONY: clean
 clean: ## Remove build artifacts
 	rm -f $(BIN)

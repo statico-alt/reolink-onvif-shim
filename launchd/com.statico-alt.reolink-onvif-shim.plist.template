@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  LaunchAgent template for reolink-onvif-shim.
+
+  This is a TEMPLATE: the __PLACEHOLDERS__ are filled in with absolute paths by
+  scripts/install-service.sh (run via `make install-service`), which writes the
+  result to ~/Library/LaunchAgents/. Do not install this file directly.
+
+  It runs as your user at login (no root needed — the shim uses high ports) and
+  KeepAlive restarts it automatically if it ever exits or crashes.
+-->
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>__LABEL__</string>
+
+	<key>ProgramArguments</key>
+	<array>
+		<string>__BINARY__</string>
+		<string>-config</string>
+		<string>__CONFIG__</string>
+		<!--
+		  launchd captures stdout/stderr to the log file below (StandardOutPath /
+		  StandardErrorPath). The app also mirrors its log to stderr, so we point
+		  its own -log writer at /dev/null to avoid every line being written twice.
+		-->
+		<string>-log</string>
+		<string>/dev/null</string>
+	</array>
+
+	<key>WorkingDirectory</key>
+	<string>__WORKDIR__</string>
+
+	<!-- Start at login, and keep it running: relaunch on crash or clean exit. -->
+	<key>RunAtLoad</key>
+	<true/>
+	<key>KeepAlive</key>
+	<true/>
+	<!-- Don't hot-loop if it fails to start (e.g. bad config): wait 10s between tries. -->
+	<key>ThrottleInterval</key>
+	<integer>10</integer>
+
+	<!-- Low-priority background service (matches its tiny resource footprint). -->
+	<key>ProcessType</key>
+	<string>Background</string>
+
+	<key>StandardOutPath</key>
+	<string>__LOG__</string>
+	<key>StandardErrorPath</key>
+	<string>__LOG__</string>
+</dict>
+</plist>
